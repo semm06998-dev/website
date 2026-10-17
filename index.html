@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Computer Science Study Hub with student login, courses, reference books, teacher notes, and study assistant.">
+<title>Computer Science Study Hub</title>
+<style>
+:root{--navy:#102a43;--blue:#2563eb;--blue2:#1d4ed8;--bg:#f3f6fb;--card:#fff;--text:#172334;--muted:#64748b;--border:#dbe4ef;--soft:#edf4ff;--red:#b91c1c;--green:#166534}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}button,input{font:inherit}button,a{cursor:pointer}
+.topbar{background:var(--navy);color:#fff;padding:15px max(16px,calc((100% - 1150px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-weight:850}.brand small{display:block;font-size:.78rem;font-weight:400;color:#d7e5f4}.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.nav a{color:#fff;text-decoration:none;padding:7px 9px;border-radius:8px}.nav a:hover{background:#28445e}.hidden{display:none!important}
+.auth-wrap{min-height:calc(100vh - 72px);display:grid;place-items:center;padding:24px}.auth-card{width:min(470px,100%);background:white;border:1px solid var(--border);border-radius:20px;padding:clamp(22px,5vw,36px);box-shadow:0 18px 55px #102a4312}.auth-icon{font-size:2rem}.auth-card h1{color:var(--navy);margin:8px 0}.muted{color:var(--muted)}.field{display:grid;gap:6px;margin:14px 0}.field label{font-weight:700;font-size:.92rem}.field input{padding:12px;border:1px solid #cbd5e1;border-radius:10px;width:100%}.field input:focus{outline:3px solid #2563eb24;border-color:var(--blue)}.btn{border:0;background:var(--blue);color:white;border-radius:10px;padding:11px 15px;font-weight:800;cursor:pointer}.btn:hover{background:var(--blue2)}.btn:disabled{opacity:.65;cursor:wait}.btn.secondary{background:#e8eef6;color:var(--navy)}.btn.danger{background:#fff;color:var(--red);border:1px solid #fecaca}.full{width:100%}.auth-switch{text-align:center;margin-top:15px}.link-btn{background:none;border:0;color:var(--blue2);font-weight:800;text-decoration:underline}.message{padding:11px 12px;border-radius:9px;margin:12px 0;font-size:.92rem;overflow-wrap:anywhere}.message.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.message.success{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}.message.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+main{max-width:1150px;margin:auto;padding:24px 16px 70px}.welcome{border-radius:20px;background:linear-gradient(125deg,#102a43,#1e4f91);color:white;padding:clamp(25px,5vw,48px)}.welcome h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.1;margin:10px 0}.welcome p{max-width:720px;color:#e2ecf7}.eyebrow{text-transform:uppercase;letter-spacing:1.4px;font-size:.78rem;font-weight:800;color:#bfdbfe}.section{margin-top:32px}.section h2{color:var(--navy);margin-bottom:6px}.search-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.search-row input,.search-row select{border:1px solid var(--border);background:white;border-radius:9px;padding:10px;font:inherit}.search-row input{flex:1;min-width:180px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:13px}.card{background:white;border:1px solid var(--border);border-radius:13px;padding:16px}.card h3{font-size:1.02rem;margin:8px 0 5px}.card p{margin:5px 0;color:var(--muted);font-size:.93rem}.pill{display:inline-block;background:var(--soft);color:var(--blue2);padding:3px 8px;border-radius:999px;font-size:.74rem;font-weight:800}.book{background:#f8fafc;border-radius:8px;padding:9px;margin-top:10px;font-size:.86rem}.note details{background:white;border:1px solid var(--border);border-radius:12px;margin-bottom:9px}.note summary{padding:14px;font-weight:800;color:var(--navy);cursor:pointer}.note-body{padding:0 15px 15px}.resource-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.resource{background:white;border:1px solid var(--border);border-radius:11px;padding:13px}.resource a{color:var(--blue2);font-weight:800;text-decoration:none}.resource small{display:block;color:var(--muted);margin-top:4px}.notice{padding:12px;background:#fff7e6;border:1px solid #f4d69b;color:#704b08;border-radius:10px;margin-top:15px}footer{text-align:center;padding:20px;color:var(--muted)}
+.chat-launcher{position:fixed;right:18px;bottom:18px;z-index:20;background:var(--blue);color:white;border:0;border-radius:999px;padding:13px 17px;font-weight:800;box-shadow:0 12px 35px #102a4330}.chat-panel{position:fixed;right:18px;bottom:78px;z-index:30;width:min(380px,calc(100vw - 22px));height:min(550px,calc(100dvh - 100px));background:white;border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 18px 50px #102a4330}.chat-panel[hidden]{display:none}.chat-head{background:var(--navy);color:white;padding:13px;display:flex;justify-content:space-between;align-items:center}.chat-head button{background:transparent;border:1px solid #647b92;color:white;border-radius:7px;padding:5px 8px}.messages{padding:12px;overflow:auto;flex:1;background:#fbfdff}.msg{display:flex;margin-bottom:9px}.msg.user{justify-content:flex-end}.bubble{max-width:88%;padding:10px 12px;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.92rem}.msg.bot .bubble{background:var(--soft)}.msg.user .bubble{background:var(--blue);color:white}.chat-form{display:flex;gap:7px;padding:10px;border-top:1px solid var(--border)}.chat-form input{min-width:0;flex:1;border:1px solid var(--border);border-radius:8px;padding:10px}.chat-form button{border:0;border-radius:8px;background:var(--blue);color:white;font-weight:800;padding:0 12px}
+@media(max-width:560px){.topbar{align-items:flex-start}.nav{gap:2px}.nav a{font-size:.82rem;padding:6px}.auth-wrap{padding:13px}.chat-panel{right:8px;bottom:72px;width:calc(100vw - 16px)}.chat-launcher{right:12px;bottom:12px}}
+
+.course-card{display:flex;flex-direction:column;gap:8px}.course-card .open-course{margin-top:auto}
+.progress-track{height:8px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin:8px 0}.progress-track span{display:block;height:100%;background:#2563eb;width:0}
+.course-detail{background:#fff;border:1px solid var(--border);border-radius:16px;padding:clamp(16px,3vw,26px);margin-top:18px;box-shadow:0 10px 30px #102a430a}.course-detail h3{color:var(--navy)}.course-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.course-tabs button{border:1px solid var(--border);background:#f8fafc;color:var(--navy);border-radius:9px;padding:8px 12px;font-weight:750}.course-tabs button[aria-selected=true]{background:var(--blue);border-color:var(--blue);color:#fff}.course-panel{padding:8px 0}.lesson-item{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #e5eaf1}.lesson-item input{margin-top:6px;transform:scale(1.15)}.quiz-q{padding:14px;border:1px solid var(--border);border-radius:11px;margin:10px 0}.quiz-q label{display:block;margin:7px 0;font-weight:500}.quiz-feedback{font-size:.9rem;margin-top:8px;color:#166534}.resource-link{color:var(--blue2);font-weight:750}.project-box{background:#f8fafc;border:1px solid var(--border);border-radius:11px;padding:14px}.progress-summary{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}.progress-chip{background:var(--soft);padding:8px 11px;border-radius:9px;color:var(--navy);font-weight:750}
+
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">📘 CS Study Hub<small>Student learning portal</small></div>
+  <div class="nav" id="appNav" hidden>
+    <a href="#courses">Courses</a><a href="#notes">Teacher Notes</a><a href="#books">Books</a><a href="#websites">Websites</a><a href="#about">About</a><a href="#contact">Contact</a>
+    <span id="userEmail" style="font-size:.82rem;color:#d7e5f4"></span>
+    <button class="btn danger" id="logoutBtn" type="button">Log out</button>
+  </div>
+</header>
+
+<section id="authView" class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-icon">🎓</div>
+    <h1 id="authTitle">Student login</h1>
+    <p class="muted" id="authIntro">Sign in to access courses, teacher notes, books, and the Study Assistant.</p>
+    <div id="authMessage" aria-live="polite"></div>
+    <form id="authForm">
+      <div class="field" id="nameField" hidden><label for="fullName">Full name</label><input id="fullName" autocomplete="name" maxlength="80" placeholder="Your name"></div>
+      <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="student@example.com"></div>
+      <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"></div>
+      <button class="btn full" id="submitAuth" type="submit">Log in</button>
+    </form>
+    <p class="auth-switch"><span id="switchText">New student?</span> <button class="link-btn" id="switchMode" type="button">Create an account</button></p>
+    <p class="muted" style="font-size:.8rem">Use your own password. This website sends authentication requests to your configured Supabase project.</p>
+  </div>
+</section>
+
+<div id="appView" hidden>
+<main>
+<section class="welcome"><div class="eyebrow">Your learning space</div><h1>Welcome to Computer Science Study Hub.</h1><p>Learn programming, review teacher-style notes, find reference books, and explore trusted computer science learning websites. Your account is required to access this page.</p></section>
+<section class="section" id="courses"><h2>30 Computer Science Courses</h2><p class="muted">Search by title, topic, or difficulty. Each course has a recommended reference book.</p>
+<div class="search-row"><input id="courseSearch" type="search" placeholder="Search courses, e.g. Python" aria-label="Search courses"><select id="levelFilter" aria-label="Filter course level"><option value="all">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div><div class="grid" id="courseGrid"></div><p id="noCourses" class="muted" hidden>No matching courses.</p></section>
+
+<section class="section" id="courseWorkspace" hidden>
+  <div class="course-detail">
+    <button class="btn secondary" id="backToCourses" type="button">← Back to all courses</button>
+    <div id="courseDetailContent"></div>
+  </div>
+</section>
+<section class="section note" id="notes"><h2>Teacher Notes & Revision Lessons</h2><p class="muted">Original short notes with concepts, examples, and practice prompts. These are not official notes from a specific university.</p><div id="notesGrid"></div></section>
+<section class="section" id="books"><h2>Reference Books</h2><p class="muted">Recommended textbooks for all 30 courses. These are recommendations, not downloadable copies.</p><div class="grid" id="bookGrid"></div></section>
+<section class="section" id="websites"><h2>25 Reference Websites</h2><p class="muted">Open official documentation, tutorials, and free learning resources.</p><div class="resource-list" id="resourceGrid"></div></section>
+
+<section class="section" id="about">
+  <h2>About Me</h2>
+  <div class="card">
+    <span class="pill">Computer Science Student</span>
+    <h3>Semagn Masre</h3>
+    <p>I am a Computer Science student interested in programming, technology, and helping students prepare for exams.</p>
+    <p>I created Computer Science Study Hub to help learners explore computer science topics, find reference books, review study notes, and discover trusted online learning resources.</p>
+    <p><strong>Location:</strong> Debre Berhan, Ethiopia</p>
+  </div>
+</section>
+<section class="section" id="contact">
+  <h2>Contact Information</h2>
+  <p class="muted">For questions, study-resource suggestions, or feedback about the website, use the contact details below.</p>
+  <div class="grid">
+    <article class="card">
+      <h3>✉️ Email</h3>
+      <p><a href="mailto:semagnmare@gmail.com">semagnmare@gmail.com</a></p>
+    </article>
+    <article class="card">
+      <h3>📞 Phone</h3>
+      <p><a href="tel:0979413126">0979413126</a></p>
+    </article>
+    <article class="card">
+      <h3>📍 Location</h3>
+      <p>Debre Berhan, Ethiopia</p>
+    </article>
+  </div>
+</section>
+
+<div class="notice"><strong>Study tip:</strong> Use active recall. Read a concept, close your notes, explain it in your own words, and then solve practice problems.</div>
+</main>
+<footer>Computer Science Study Hub · Secure sign-in powered by Supabase Auth</footer>
+<button class="chat-launcher" id="chatLauncher" type="button" aria-expanded="false">💬 Study Assistant</button>
+<section class="chat-panel" id="chatPanel" role="dialog" aria-label="Study Assistant" hidden><div class="chat-head"><strong>CS Study Assistant</strong><div><button id="clearChat" type="button">Clear</button> <button id="closeChat" type="button" aria-label="Close">✕</button></div></div><div class="messages" id="messages" aria-live="polite"></div><form class="chat-form" id="chatForm"><input id="chatInput" maxlength="500" placeholder="Ask a CS question..." aria-label="Ask a CS question" required><button>Send</button></form></section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/*
+  REQUIRED SETUP:
+  1) Replace https://qzbqmyhjnqxftebasjyn.supabase.co with your project's Project URL.
+  2) Replace sb_publishable__LKGr0xlPZH9io8-R2Zu8g_rYIWuUPU with the project's publishable/anon key.
+  A publishable/anon key is intended for frontend use when database policies are secure.
+  NEVER paste a service_role or secret key into this file.
+*/
+const SUPABASE_URL = "https://qzbqmyhjnqxftebasjyn.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable__LKGr0xlPZH9io8-R2Zu8g_rYIWuUPU";
+const configured = SUPABASE_URL.startsWith("https://") &&
+                  !SUPABASE_URL.includes("YOUR_") &&
+                  SUPABASE_ANON_KEY.length > 20 &&
+                  !SUPABASE_ANON_KEY.includes("YOUR_");
+const supabaseClient = configured ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+const authView=document.getElementById("authView"),appView=document.getElementById("appView"),appNav=document.getElementById("appNav");
+const authForm=document.getElementById("authForm"),authMessage=document.getElementById("authMessage"),authTitle=document.getElementById("authTitle"),authIntro=document.getElementById("authIntro"),submitAuth=document.getElementById("submitAuth"),nameField=document.getElementById("nameField"),switchMode=document.getElementById("switchMode"),switchText=document.getElementById("switchText");
+let mode="login";
+function showMessage(text,type="info"){authMessage.replaceChildren();const d=document.createElement("div");d.className="message "+type;d.textContent=text;authMessage.appendChild(d)}
+function setMode(next){mode=next;const signup=mode==="signup";authTitle.textContent=signup?"Create student account":"Student login";authIntro.textContent=signup?"Register with your email and create a password to access the study hub.":"Sign in to access courses, teacher notes, books, and the Study Assistant.";nameField.hidden=!signup;document.getElementById("fullName").required=signup;document.getElementById("password").autocomplete=signup?"new-password":"current-password";submitAuth.textContent=signup?"Create account":"Log in";switchText.textContent=signup?"Already registered?":"New student?";switchMode.textContent=signup?"Log in":"Create an account";authMessage.replaceChildren()}
+switchMode.addEventListener("click",()=>setMode(mode==="login"?"signup":"login"));
+function setSignedIn(user){currentStudentId=user.id||user.email||"student";authView.classList.add("hidden");appView.hidden=false;appNav.hidden=false;document.getElementById("userEmail").textContent=user.email||"Student";document.getElementById("appNav").style.display="flex";renderCourses()}
+function setSignedOut(){appView.hidden=true;appNav.hidden=true;authView.classList.remove("hidden");document.getElementById("userEmail").textContent=""}
+authForm.addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(!configured){showMessage("Supabase is not configured yet. Open index.html and replace https://qzbqmyhjnqxftebasjyn.supabase.co and sb_publishable__LKGr0xlPZH9io8-R2Zu8g_rYIWuUPU with the values from your Supabase project's API settings, then upload the updated file.","error");return}
+ const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+ submitAuth.disabled=true;submitAuth.textContent=mode==="signup"?"Creating account…":"Logging in…";authMessage.replaceChildren();
+ try{
+  if(mode==="signup"){
+   const fullName=document.getElementById("fullName").value.trim();
+   const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:fullName}}});
+   if(error)throw error;
+   if(data.session){showMessage("Account created. You are now signed in.","success");setSignedIn(data.user)}
+   else{showMessage("Registration submitted. Check your email for a confirmation link, then return here and log in. If no email arrives, check spam and your Supabase email settings.","success");setMode("login")}
+  }else{
+   const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+   if(error)throw error;setSignedIn(data.user)
+  }
+ }catch(err){showMessage(err.message||"Could not authenticate. Check your email, password, and Supabase settings.","error")}
+ finally{submitAuth.disabled=false;submitAuth.textContent=mode==="signup"?"Create account":"Log in"}
+});
+document.getElementById("logoutBtn").addEventListener("click",async()=>{
+ if(!supabaseClient){setSignedOut();return}
+ const {error}=await supabaseClient.auth.signOut();if(error){alert("Could not log out: "+error.message);return}setSignedOut();setMode("login");showMessage("You have logged out successfully.","success")
+});
+async function initAuth(){
+ if(!configured){showMessage("Setup required: add your Supabase Project URL and publishable/anon key in index.html. The site will stay locked until configured.","error");return}
+ try{const {data,error}=await supabaseClient.auth.getSession();if(error)throw error;if(data.session)setSignedIn(data.session.user);else setSignedOut();
+ supabaseClient.auth.onAuthStateChange((_event,session)=>{if(session)setSignedIn(session.user);else setSignedOut()})}
+ catch(err){showMessage("Unable to connect to Supabase: "+err.message,"error")}
+}
+initAuth();
+
+const courses=[
+["Introduction to Computer Science","Beginner","Computational thinking, abstraction, binary, and problem solving.","Computer Science: An Overview — J. Glenn Brookshear & Dennis Brylow"],
+["Computer Fundamentals","Beginner","Hardware, software, memory, storage, and operating systems.","Computer Essentials — Timothy O'Leary & Linda O'Leary"],
+["Python Programming","Beginner","Variables, conditions, loops, functions, lists, and files.","Python Crash Course — Eric Matthes"],
+["C Programming","Beginner","Control flow, functions, arrays, pointers, and structures.","C Programming: A Modern Approach — K. N. King"],
+["C++ Programming","Intermediate","Classes, objects, memory, templates, and the STL.","Programming: Principles and Practice Using C++ — Bjarne Stroustrup"],
+["Java Programming","Beginner","Syntax, classes, inheritance, exceptions, and collections.","Core Java Volume I — Cay S. Horstmann"],
+["JavaScript Programming","Beginner","Functions, arrays, objects, DOM, events, and async basics.","Eloquent JavaScript — Marijn Haverbeke"],
+["HTML & CSS","Beginner","Semantic HTML, responsive layout, CSS, flexbox, and grid.","Learning Web Design — Jennifer Niederst Robbins"],
+["Object-Oriented Programming","Intermediate","Encapsulation, inheritance, polymorphism, and abstraction.","Head First Object-Oriented Analysis and Design — McLaughlin et al."],
+["Data Structures","Intermediate","Arrays, lists, stacks, queues, trees, hash tables, and graphs.","Data Structures and Algorithms in Java — Goodrich et al."],
+["Algorithms & Complexity","Intermediate","Searching, sorting, recursion, Big-O, and greedy methods.","Introduction to Algorithms — Cormen et al."],
+["Discrete Mathematics","Intermediate","Logic, sets, relations, counting, graphs, and proofs.","Discrete Mathematics and Its Applications — Kenneth H. Rosen"],
+["Database Systems","Beginner","Tables, keys, normalization, SQL, and transactions.","Database System Concepts — Silberschatz et al."],
+["SQL Practice","Beginner","Queries, joins, grouping, subqueries, and data changes.","Learning SQL — Alan Beaulieu"],
+["Computer Networks","Intermediate","TCP/IP, addressing, routing, DNS, HTTP, and security.","Computer Networking: A Top-Down Approach — Kurose & Ross"],
+["Operating Systems","Intermediate","Processes, threads, scheduling, memory, filesystems, and deadlocks.","Operating System Concepts — Silberschatz et al."],
+["Computer Architecture","Intermediate","Binary arithmetic, CPU, instructions, and memory hierarchy.","Computer Organization and Design — Patterson & Hennessy"],
+["Software Engineering","Intermediate","Requirements, design, testing, version control, and maintenance.","Software Engineering — Ian Sommerville"],
+["Systems Analysis & Design","Intermediate","Requirements, use cases, modelling, prototypes, and evaluation.","Systems Analysis and Design — Dennis et al."],
+["Human-Computer Interaction","Beginner","Usability, accessibility, user research, and evaluation.","Interaction Design — Preece, Sharp & Rogers"],
+["Cybersecurity Fundamentals","Beginner","Threats, authentication, encryption basics, and safe practices.","Computer Security: Principles and Practice — Stallings & Brown"],
+["Web Application Security","Advanced","Input validation, sessions, access control, and secure design.","The Web Application Hacker's Handbook — Stuttard & Pinto"],
+["Artificial Intelligence","Intermediate","Search, knowledge representation, reasoning, and AI foundations.","Artificial Intelligence: A Modern Approach — Russell & Norvig"],
+["Machine Learning","Advanced","Datasets, features, supervised learning, evaluation, and models.","An Introduction to Statistical Learning — James et al."],
+["Data Science & Statistics","Intermediate","Data cleaning, descriptive statistics, visualisation, and interpretation.","Practical Statistics for Data Scientists — Bruce et al."],
+["Cloud Computing","Intermediate","Virtualisation, service models, deployment, and scalability.","Cloud Computing: Concepts, Technology & Architecture — Thomas Erl et al."],
+["Mobile App Development","Intermediate","Mobile UI, lifecycle, local storage, APIs, and testing.","Android Programming: The Big Nerd Ranch Guide — Phillips et al."],
+["Git & GitHub","Beginner","Repositories, commits, branches, merges, and collaboration.","Pro Git — Scott Chacon & Ben Straub (free online)"],
+["Computer Graphics","Advanced","Transformations, rendering, lighting, and graphics APIs.","Computer Graphics: Principles and Practice — Hughes et al."],
+["Research Methods & Technical Writing","Beginner","Research questions, source evaluation, citations, and reports.","The Craft of Research — Booth et al."]
+];
+
+const courseWorkspace=document.getElementById("courseWorkspace");
+const courseDetailContent=document.getElementById("courseDetailContent");
+let activeCourseIndex=null, activeCourseTab="lessons";
+let currentStudentId="guest";
+const localProgressKey=()=>`cs-study-hub-progress:${currentStudentId}`;
+function readProgress(){try{return JSON.parse(localStorage.getItem(localProgressKey())||"{}")}catch(e){return {}}}
+function saveProgress(data){try{localStorage.setItem(localProgressKey(),JSON.stringify(data))}catch(e){console.warn("Progress could not be saved locally",e)}}
+function courseProgress(index){const p=readProgress()[String(index)]||{};const total=coursePlan(index).lessons.length;const done=(p.done||[]).length;return {done,total,percent:total?Math.round(done/total*100):0}}
+function getCourseLink(title){
+ const t=title.toLowerCase();
+ if(t.includes("python"))return ["Python Official Tutorial","https://docs.python.org/3/tutorial/"];
+ if(t.includes("java"))return ["Java Learn","https://dev.java/learn/"];
+ if(t.includes("c++"))return ["cppreference","https://en.cppreference.com/"];
+ if(t==="c programming")return ["Learn-C.org","https://www.learn-c.org/"];
+ if(t.includes("javascript"))return ["MDN JavaScript","https://developer.mozilla.org/en-US/docs/Web/JavaScript"];
+ if(t.includes("html"))return ["MDN HTML","https://developer.mozilla.org/en-US/docs/Learn/HTML"];
+ if(t.includes("database")||t.includes("sql"))return ["SQLBolt","https://sqlbolt.com/"];
+ if(t.includes("network"))return ["Cisco Networking Academy","https://www.netacad.com/"];
+ if(t.includes("operating system"))return ["OSTEP free book","https://pages.cs.wisc.edu/~remzi/OSTEP/"];
+ if(t.includes("data structure"))return ["OpenDSA","https://opendsa-server.cs.vt.edu/"];
+ if(t.includes("algorithm"))return ["VisuAlgo","https://visualgo.net/en"];
+ if(t.includes("discrete"))return ["MIT Mathematics for CS","https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/"];
+ if(t.includes("cybersecurity"))return ["OWASP","https://owasp.org/"];
+ if(t.includes("cloud"))return ["Microsoft Learn Cloud","https://learn.microsoft.com/en-us/training/azure/"];
+ if(t.includes("git"))return ["Pro Git book","https://git-scm.com/book/en/v2"];
+ if(t.includes("mobile"))return ["Android Developers","https://developer.android.com/"];
+ if(t.includes("web"))return ["The Odin Project","https://www.theodinproject.com/"];
+ if(t.includes("computer graphics"))return ["LearnOpenGL","https://learnopengl.com/"];
+ if(t.includes("machine learning")||t.includes("artificial intelligence"))return ["Google ML Crash Course","https://developers.google.com/machine-learning/crash-course"];
+ if(t.includes("statistics")||t.includes("data science"))return ["Kaggle Learn","https://www.kaggle.com/learn"];
+ if(t.includes("research"))return ["Purdue OWL","https://owl.purdue.edu/"];
+ if(t.includes("fundamentals")||t.includes("introduction to computer science"))return ["Harvard CS50","https://cs50.harvard.edu/x/"];
+ return ["MIT OpenCourseWare","https://ocw.mit.edu/"];
+}
+const topicMap={
+"Introduction to Computer Science":["Computational thinking and abstraction","Binary numbers and data representation","Algorithms, pseudocode, and flowcharts","Problem decomposition and debugging"],
+"Computer Fundamentals":["Computer components: CPU, RAM, storage","Operating systems and application software","Binary, bits, bytes, and data units","Input/output devices and troubleshooting"],
+"Python Programming":["Variables, types, input, and output","Conditions and Boolean logic","For/while loops and iteration","Functions, parameters, and return values","Lists, dictionaries, and strings","Files, exceptions, and modules"],
+"C Programming":["Types, operators, input, and output","Conditions, loops, and functions","Arrays and strings","Pointers and memory addresses","Structures, files, and compilation"],
+"C++ Programming":["Types, expressions, and control flow","Functions, references, and scope","Classes, objects, and encapsulation","Inheritance and polymorphism","STL containers and algorithms"],
+"Java Programming":["Java syntax, variables, and control flow","Methods, arrays, and strings","Classes, objects, and constructors","Inheritance, interfaces, and polymorphism","Exceptions, collections, and files"],
+"JavaScript Programming":["Variables, types, and operators","Functions, arrays, and objects","DOM selection and event handling","Promises and async/await","Fetch APIs and error handling"],
+"HTML & CSS":["Semantic HTML structure","Links, images, forms, and accessibility","CSS selectors, box model, and typography","Flexbox and CSS Grid","Responsive design and media queries"],
+"Object-Oriented Programming":["Classes, objects, and constructors","Encapsulation and abstraction","Inheritance and composition","Polymorphism and interfaces","Design principles and UML basics"],
+"Data Structures":["Arrays, linked lists, and dynamic arrays","Stacks and queues","Hash tables and collision handling","Trees, heaps, and traversals","Graphs and graph representations"],
+"Algorithms & Complexity":["Algorithm correctness and pseudocode","Big-O time and space complexity","Linear and binary search","Sorting algorithms and trade-offs","Recursion, greedy methods, and dynamic programming"],
+"Discrete Mathematics":["Propositions, logic, and truth tables","Sets, relations, and functions","Proof techniques and induction","Counting, permutations, and combinations","Graphs, trees, and recurrence relations"],
+"Database Systems":["Relational model, tables, and keys","ER diagrams and schema design","Normalization and functional dependencies","Transactions and ACID properties","Indexes, joins, and query planning"],
+"SQL Practice":["SELECT, WHERE, ORDER BY, and LIMIT","Aggregate functions and GROUP BY","INNER and OUTER JOIN","Subqueries and common table expressions","INSERT, UPDATE, DELETE, and safe transactions"],
+"Computer Networks":["OSI and TCP/IP models","IPv4 addressing and subnet basics","Ethernet, switches, and routers","DNS, DHCP, HTTP, and HTTPS","TCP versus UDP and network troubleshooting"],
+"Operating Systems":["Processes, threads, and system calls","CPU scheduling and synchronization","Concurrency, locks, and deadlocks","Memory management and virtual memory","Filesystems, permissions, and I/O"],
+"Software Engineering":["Requirements and user stories","Architecture and modular design","Agile planning and version control","Testing, debugging, and code review","Deployment, maintenance, and documentation"],
+"Computer Architecture":["Binary arithmetic and Boolean logic","Instruction sets and machine instructions","CPU datapath and control","Pipelining and performance","Caches, memory hierarchy, and I/O"],
+"Artificial Intelligence":["Agents, states, and search problems","Breadth-first and depth-first search","Heuristics and informed search","Knowledge representation and logic","Responsible AI and evaluation"],
+"Machine Learning":["Data preparation and train/test split","Supervised versus unsupervised learning","Regression and classification","Overfitting, regularization, and validation","Metrics, bias, and model interpretation"],
+"Data Science & Statistics":["Data types, sampling, and distributions","Mean, median, variance, and standard deviation","Probability and common distributions","Exploratory analysis and visualisation","Correlation, inference, and communicating results"],
+"Cybersecurity Basics":["Confidentiality, integrity, and availability","Authentication, authorisation, and MFA","Threat modelling and common attacks","Encryption, hashing, and TLS basics","Secure coding, updates, and backups"],
+"Cloud Computing":["Cloud service and deployment models","Virtual machines, containers, and serverless","Storage, networking, and identity basics","Scalability, availability, and monitoring","Cost, shared responsibility, and security"],
+"Mobile App Development":["Mobile app structure and lifecycle","Layouts, navigation, and accessibility","State, local storage, and preferences","Calling APIs and handling network errors","Testing, release signing, and deployment"],
+"Git & GitHub":["Repositories, working tree, and staging","Commits and meaningful commit messages","Branches, merges, and conflict resolution","Remote repositories, push, and pull","Pull requests, issues, and collaboration"],
+"Computer Graphics":["2D/3D coordinates and transformations","Vectors, matrices, and projection","Rasterisation, shading, and lighting","Textures, cameras, and rendering pipeline","Graphics performance and visual debugging"],
+"Research Methods & Technical Writing":["Choosing a research question and scope","Finding and evaluating reliable sources","Research methods, data, and ethics","Citations, paraphrasing, and avoiding plagiarism","Structuring reports, abstracts, and presentations"]
+};
+function coursePlan(index){
+ const c=courses[index], title=c[0], topics=topicMap[title]||[c[2],"Core concepts and terminology","Worked examples and practical exercises","Review, testing, and revision"];
+ const lessons=topics.map((topic,i)=>({title:topic,body:`Study ${topic.toLowerCase()} as part of ${title}. Write a short definition, work through one example, then explain when the concept is useful. Check the official resource linked in this course for further detail.`,task:`Write a 3–5 sentence summary of “${topic}” and solve one small example without copying the answer.`}));
+ const key=title.toLowerCase();
+ let note=`${c[2]} Begin with the vocabulary, then connect each concept to a small worked example. Keep notes in your own words, test edge cases, and explain why the solution works rather than memorising steps.`;
+ let project=`Build a small ${title} project that solves a real student or campus problem. Define the requirements, create a simple working version, test at least five cases, and write a README explaining setup, design choices, and limitations.`;
+ if(key.includes("python")){note="Python uses indentation to group code. Variables refer to objects; if/elif/else selects a branch; loops repeat work; functions package reusable logic. Lists preserve order, dictionaries map keys to values, and exceptions help handle errors.";project="Build a student grade manager: enter student names and scores, validate input, calculate averages and letter grades, save records to a file, and display a summary."}
+ else if(key.includes("database")||key.includes("sql")){note="Use primary keys to uniquely identify rows and foreign keys to connect tables. SELECT retrieves data, WHERE filters rows, JOIN combines related tables, and GROUP BY aggregates records. Design tables to reduce duplication and use transactions for related changes.";project="Design a course registration database with Students, Courses, and Enrollments. Add keys, insert sample records, and write queries for student schedules, course counts, and average marks."}
+ else if(key.includes("network")){note="Networks use layered protocols. IP routes packets between networks, DNS resolves names, TCP provides reliable ordered streams, and UDP provides datagrams without delivery guarantees. Troubleshoot from physical connection to IP configuration, DNS, then application.";project="Create and document a small campus network plan with a topology diagram, IP/subnet plan, router and switch roles, DNS/DHCP explanation, and a troubleshooting checklist."}
+ else if(key.includes("web")||key.includes("html")){note="HTML describes semantic page structure, CSS controls presentation, and JavaScript adds behaviour. Use accessible labels, meaningful headings, responsive layouts, and test keyboard navigation and small screens.";project="Create a responsive course portfolio with accessible navigation, a contact form mock-up, mobile layout, and a short README. Validate links and test on phone-sized and desktop screens."}
+ else if(key.includes("cyber")){note="The CIA triad means confidentiality, integrity, and availability. Authentication verifies identity; authorization decides permissions. Use MFA, least privilege, secure updates, backups, and never place server secrets in frontend code.";project="Write a security review for a fictional student portal: identify assets and threats, rank risks, propose mitigations, and produce a safe incident-response checklist."}
+ const book=c[3], link=getCourseLink(title);
+ const quiz=[
+  {q:`Which approach is best when beginning ${title}?`,opts:["Memorise code without understanding it","Learn core concepts, then practise with examples","Skip the basics and start a large project"],a:1,why:"Building concepts first and practising with small examples creates a foundation for harder work."},
+  {q:`For ${title}, what should you do when a solution fails a test?`,opts:["Ignore the failed case","Change code randomly","Reproduce the problem, inspect assumptions, and debug systematically"],a:2,why:"Systematic debugging isolates the cause and helps prevent the same mistake later."},
+  {q:`Which is a strong way to demonstrate learning in ${title}?`,opts:["Complete a small project and explain design choices","Copy a solution without testing it","Read a title only"],a:0,why:"A tested project with an explanation demonstrates understanding and practical ability."},
+  {q:`What should good revision notes for ${title} contain?`,opts:["Only copied paragraphs","Definitions, worked examples, mistakes, and a short summary","Unrelated links"],a:1,why:"Active recall and worked examples make notes useful for revision."},
+  {q:`Before sharing a ${title} project, what is important?`,opts:["Test important cases and document how to run it","Remove all instructions","Include passwords or secret keys"],a:0,why:"Testing and clear documentation help others use the project safely and reliably."}
+ ];
+ return {title,level:c[1],overview:c[2],book,topics,lessons,note,project,link,quiz};
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+function renderCourses(){
+ const term=document.getElementById("courseSearch").value.toLowerCase().trim(),level=document.getElementById("levelFilter").value,grid=document.getElementById("courseGrid"),books=document.getElementById("bookGrid");
+ grid.replaceChildren();books.replaceChildren();
+ courses.forEach((c,i)=>{
+  const p=courseProgress(i);
+  if((level==="all"||c[1]===level)&&c.join(" ").toLowerCase().includes(term)){
+   const el=document.createElement("article");el.className="card course-card";
+   el.innerHTML=`<span class="pill">${escapeHtml(c[1])}</span><h3>${i+1}. ${escapeHtml(c[0])}</h3><p>${escapeHtml(c[2])}</p><div class="book"><strong>Reference book</strong><br>${escapeHtml(c[3])}</div><div class="progress-track" aria-label="Course progress"><span style="width:${p.percent}%"></span></div><small class="muted">${p.done}/${p.total} lessons completed · ${p.percent}%</small><button class="btn open-course" type="button" data-course="${i}">Open course →</button>`;
+   grid.appendChild(el);
+  }
+  const b=document.createElement("article");b.className="card";b.innerHTML=`<h3>${i+1}. ${escapeHtml(c[0])}</h3><p>${escapeHtml(c[3])}</p><p><a class="resource-link" href="${getCourseLink(c[0])[1]}" target="_blank" rel="noopener noreferrer">${escapeHtml(getCourseLink(c[0])[0])}</a></p>`;books.appendChild(b);
+ });
+ document.getElementById("noCourses").hidden=grid.children.length!==0;
+ grid.querySelectorAll("[data-course]").forEach(btn=>btn.addEventListener("click",()=>openCourse(Number(btn.dataset.course))));
+}
+function openCourse(index){
+ activeCourseIndex=index;activeCourseTab="lessons";
+ courseWorkspace.hidden=false;
+ document.getElementById("courseWorkspace").scrollIntoView({behavior:"smooth",block:"start"});
+ renderCourseDetail();
+}
+document.getElementById("backToCourses").addEventListener("click",()=>{courseWorkspace.hidden=true;activeCourseIndex=null;document.getElementById("courses").scrollIntoView({behavior:"smooth"})});
+function renderCourseDetail(){
+ if(activeCourseIndex===null)return;
+ const i=activeCourseIndex,p=coursePlan(i),progress=readProgress()[String(i)]||{done:[],quizBest:0};
+ const prog=courseProgress(i);
+ const tabs=[["lessons","Lessons"],["notes","Teacher Notes"],["books","Books"],["websites","Websites"],["exam","Practice Exam"],["project","Project"],["progress","My Progress"]];
+ let content="";
+ if(activeCourseTab==="lessons"){
+  content=`<h3>Lessons for ${escapeHtml(p.title)}</h3><p>${escapeHtml(p.overview)}</p><div class="progress-summary"><span class="progress-chip">${prog.done}/${prog.total} lessons complete</span><span class="progress-chip">${prog.percent}% progress</span></div>`;
+  content+=p.lessons.map((l,j)=>`<label class="lesson-item"><input type="checkbox" data-lesson="${j}" ${((progress.done||[]).includes(j))?"checked":""}><span><strong>Lesson ${j+1}: ${escapeHtml(l.title)}</strong><br><span>${escapeHtml(l.body)}</span><br><small class="muted"><strong>Try it:</strong> ${escapeHtml(l.task)}</small></span></label>`).join("");
+ }else if(activeCourseTab==="notes"){
+  content=`<h3>Teacher Notes: ${escapeHtml(p.title)}</h3><p>${escapeHtml(p.note)}</p><h4>Revision checklist</h4><ul><li>Define the main terms in your own words.</li><li>Work through an example without looking at the solution.</li><li>Record one common mistake and how to avoid it.</li><li>Explain the topic to another student.</li></ul><p><strong>Self-check:</strong> ${escapeHtml(p.lessons[0].task)}</p>`;
+ }else if(activeCourseTab==="books"){
+  content=`<h3>Reference Books: ${escapeHtml(p.title)}</h3><div class="project-box"><strong>Recommended primary book</strong><p>${escapeHtml(p.book)}</p><p class="muted">Use your university library or the publisher/library catalogue to find a legal copy. This website does not provide pirated textbook downloads.</p></div><h4>How to read efficiently</h4><ol><li>Read the chapter objectives.</li><li>Work every important example by hand.</li><li>Summarise key ideas in your own words.</li><li>Attempt end-of-chapter exercises.</li></ol>`;
+ }else if(activeCourseTab==="websites"){
+  content=`<h3>Useful Websites: ${escapeHtml(p.title)}</h3><div class="resource"><a class="resource-link" href="${p.link[1]}" target="_blank" rel="noopener noreferrer">${escapeHtml(p.link[0])}</a><small>Recommended learning resource for this course.</small></div><p><a class="resource-link" href="https://www.geeksforgeeks.org/" target="_blank" rel="noopener noreferrer">GeeksforGeeks</a> — explanations and practice.</p><p><a class="resource-link" href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer">freeCodeCamp</a> — project-based learning.</p><p><a class="resource-link" href="https://ocw.mit.edu/" target="_blank" rel="noopener noreferrer">MIT OpenCourseWare</a> — university-level materials.</p><p><a class="resource-link" href="https://www.w3schools.com/" target="_blank" rel="noopener noreferrer">W3Schools</a> — beginner-friendly tutorials.</p>`;
+ }else if(activeCourseTab==="exam"){
+  content=`<h3>Practice Exam: ${escapeHtml(p.title)}</h3><p class="muted">Choose one answer for each question, then check your answers and explanations. This is practice material, not an official university exam.</p><form id="courseQuiz">${p.quiz.map((q,j)=>`<fieldset class="quiz-q"><legend><strong>${j+1}. ${escapeHtml(q.q)}</strong></legend>${q.opts.map((o,k)=>`<label><input type="radio" name="q${j}" value="${k}"> ${escapeHtml(o)}</label>`).join("")}<div id="feedback${j}" class="quiz-feedback" aria-live="polite"></div></fieldset>`).join("")}<button class="btn" type="submit">Check answers</button></form>`;
+ }else if(activeCourseTab==="project"){
+  content=`<h3>Practical Project: ${escapeHtml(p.title)}</h3><div class="project-box"><p>${escapeHtml(p.project)}</p><h4>Submission checklist</h4><ul><li>State the problem and requirements.</li><li>Build a working prototype.</li><li>Test at least five normal and edge cases.</li><li>Document how to run it and what you learned.</li><li>Do not include passwords, API secrets, or private student data.</li></ul></div>`;
+ }else{
+  const done=(progress.done||[]).length, percent=Math.round(done/p.lessons.length*100);
+  content=`<h3>My Progress: ${escapeHtml(p.title)}</h3><div class="progress-summary"><span class="progress-chip">${done} of ${p.lessons.length} lessons complete</span><span class="progress-chip">${percent}% complete</span><span class="progress-chip">Best quiz: ${progress.quizBest||0}/${p.quiz.length}</span></div><div class="progress-track"><span style="width:${percent}%"></span></div><p>Your progress is saved in this browser for this signed-in account. It will not automatically sync to another device unless a protected Supabase progress table is configured.</p><button class="btn secondary" id="resetCourseProgress" type="button">Reset this course progress</button>`;
+ }
+ courseDetailContent.innerHTML=`<span class="pill">${escapeHtml(p.level)}</span><h2>${escapeHtml(p.title)}</h2><p class="muted">${escapeHtml(p.overview)}</p><div class="course-tabs" role="tablist">${tabs.map(t=>`<button type="button" role="tab" data-tab="${t[0]}" aria-selected="${activeCourseTab===t[0]}">${t[1]}</button>`).join("")}</div><div class="course-panel">${content}</div>`;
+ courseDetailContent.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{activeCourseTab=b.dataset.tab;renderCourseDetail()}));
+ courseDetailContent.querySelectorAll("[data-lesson]").forEach(cb=>cb.addEventListener("change",()=>{
+  const data=readProgress(),key=String(i);data[key]=data[key]||{done:[],quizBest:0};let done=data[key].done||[];
+  const n=Number(cb.dataset.lesson);done=cb.checked?[...new Set([...done,n])]:done.filter(x=>x!==n);data[key].done=done;saveProgress(data);renderCourses();renderCourseDetail();
+ }));
+ const quizForm=document.getElementById("courseQuiz");
+ if(quizForm)quizForm.addEventListener("submit",e=>{
+  e.preventDefault();let score=0;
+  p.quiz.forEach((q,j)=>{const chosen=quizForm.querySelector(`input[name="q${j}"]:checked`);const feedback=document.getElementById(`feedback${j}`);
+   if(chosen&&Number(chosen.value)===q.a)score++;
+   feedback.textContent=(chosen&&Number(chosen.value)===q.a?"Correct. ":"Not quite. Correct answer: "+q.opts[q.a]+". ")+q.why;
+  });
+  const data=readProgress(),key=String(i);data[key]=data[key]||{done:[],quizBest:0};data[key].quizBest=Math.max(data[key].quizBest||0,score);saveProgress(data);
+  const result=document.createElement("p");result.className="message info";result.textContent=`Your score: ${score}/${p.quiz.length}. Review the explanations and try again.`;quizForm.prepend(result);renderCourses();
+ });
+ const reset=document.getElementById("resetCourseProgress");
+ if(reset)reset.addEventListener("click",()=>{if(confirm("Reset lessons and quiz best score for this course?")){const data=readProgress();delete data[String(i)];saveProgress(data);renderCourses();renderCourseDetail()}});
+}
+document.getElementById("courseSearch").addEventListener("input",renderCourses);document.getElementById("levelFilter").addEventListener("change",renderCourses);
+renderCourses();
+document.getElementById("courseSearch").addEventListener("input",renderCourses);document.getElementById("levelFilter").addEventListener("change",renderCourses);renderCourses();
+const notes=[
+["Programming Foundations","A program is a set of instructions that transforms input into output. Variables name values; conditions select a path; loops repeat steps; functions package reusable work.","Practice: write steps to find the larger of two numbers. Explain a condition versus a loop."],
+["Python Conditions and Loops","Use if/elif/else to make decisions. A for loop iterates over a sequence; a while loop repeats while a condition is true. Indentation defines Python blocks.","Example: for n in range(1, 4): print(n). Check that while loops can eventually stop."],
+["Object-Oriented Programming","A class describes a type; an object is an instance. Encapsulation groups data and behaviour, inheritance extends a class, and polymorphism supports different implementations through a shared interface.","Practice: give a real-world class/object example and explain encapsulation."],
+["Data Structures & Algorithms","Arrays offer indexed access; stacks are last-in-first-out; queues are first-in-first-out. Big-O describes how resource use grows as input size grows.","Practice: choose a data structure for a printer queue. Compare linear and binary search; binary search needs sorted data."],
+["Database Systems & SQL","A relational database stores records in tables. A primary key uniquely identifies a row; a foreign key links tables. Normalization reduces avoidable duplication.","Example: SELECT name FROM students WHERE department = 'CS'; Explain WHERE versus GROUP BY."],
+["Computer Networks","IP addresses identify interfaces. DNS resolves domain names. TCP provides reliable, ordered transport; UDP does not guarantee delivery. HTTPS protects web traffic using TLS.","Practice: explain DNS, compare TCP and UDP, and describe what happens when you open a website."],
+["Operating Systems","An operating system manages hardware and offers services to applications. A process is a running program; a thread is an execution unit. Scheduling shares CPU time.","Practice: compare process and thread. Why is virtual memory useful?"],
+["Web Development","HTML structures content, CSS controls presentation, and JavaScript adds behaviour. Semantic HTML helps accessibility; responsive layouts adapt to different screens.","Practice: explain the role of HTML, CSS, and JavaScript and why semantic HTML matters."],
+["Cybersecurity Basics","Confidentiality limits data access; integrity protects against unauthorised changes; availability keeps systems usable. Use unique passwords, MFA, updates, and least privilege.","Practice: explain the CIA triad. Never expose a Supabase service-role or secret key in frontend code."],
+["Exam Preparation","Use active recall, spaced repetition, worked examples, and timed practice. After marking answers, record why each error occurred and revisit weak topics.","Practice: explain one concept without notes, solve three questions, check mistakes, then retry tomorrow."]
+];
+const ng=document.getElementById("notesGrid");notes.forEach((n,i)=>{const d=document.createElement("details");d.innerHTML=`<summary>${i+1}. ${n[0]}</summary><div class="note-body"><p>${n[1]}</p><p><strong>Practice:</strong> ${n[2]}</p></div>`;ng.appendChild(d)});
+const resources=[
+["MDN Web Docs","HTML, CSS, JavaScript and web APIs","https://developer.mozilla.org/"],["W3Schools","Beginner tutorials and examples","https://www.w3schools.com/"],["freeCodeCamp","Free project-based coding curriculum","https://www.freecodecamp.org/"],["Harvard CS50","Computer science and programming courses","https://cs50.harvard.edu/x/"],["CS50 Python","Python programming course","https://cs50.harvard.edu/python/"],["MIT OpenCourseWare","University course notes and lectures","https://ocw.mit.edu/"],["Python Official Tutorial","Official Python tutorial","https://docs.python.org/3/tutorial/"],["Java Documentation","Official Java learning resources","https://dev.java/learn/"],["C++ Reference","C++ language and library reference","https://en.cppreference.com/"],["Microsoft Learn","C#, .NET, Azure and more","https://learn.microsoft.com/"],["The Odin Project","Open web development curriculum","https://www.theodinproject.com/"],["Khan Academy Computing","Introductory computing lessons","https://www.khanacademy.org/computing"],["GeeksforGeeks","Computer science explanations and practice","https://www.geeksforgeeks.org/"],["Programiz","Beginner programming tutorials","https://www.programiz.com/"],["SQLBolt","Interactive SQL lessons","https://sqlbolt.com/"],["PostgreSQL Documentation","Official PostgreSQL manual","https://www.postgresql.org/docs/"],["Cisco Networking Academy","Networking and IT learning","https://www.netacad.com/"],["OpenDSA","Interactive data structures and algorithms","https://opendsa-server.cs.vt.edu/"],["Git Documentation","Official Git documentation","https://git-scm.com/doc"],["Pro Git Book","Free online Git book","https://git-scm.com/book/en/v2"],["Linux Journey","Linux and command-line learning","https://linuxjourney.com/"],["OWASP","Web application security guidance","https://owasp.org/"],["web.dev","Web performance and accessibility","https://web.dev/"],["Coursera Computer Science","Computer science courses; access varies","https://www.coursera.org/browse/computer-science"],["OpenStax","Open educational textbooks and resources","https://openstax.org/"]];
+const rg=document.getElementById("resourceGrid");resources.forEach(r=>{const el=document.createElement("div");el.className="resource";const a=document.createElement("a");a.href=r[2];a.target="_blank";a.rel="noopener noreferrer";a.textContent=r[0];const s=document.createElement("small");s.textContent=r[1];el.append(a,s);rg.appendChild(el)});
+
+const launcher=document.getElementById("chatLauncher"),panel=document.getElementById("chatPanel"),messages=document.getElementById("messages"),chatInput=document.getElementById("chatInput");
+function addMsg(t,who){const row=document.createElement("div");row.className="msg "+who;const b=document.createElement("div");b.className="bubble";b.textContent=t;row.appendChild(b);messages.appendChild(row);messages.scrollTop=messages.scrollHeight}
+function botAnswer(t){const q=t.toLowerCase();if(/\b(hello|hi|hey)\b/.test(q))return "Hello! Ask me about programming, databases, networks, web development, or exams.";if(/\b(python)\b/.test(q)&&/\b(loop|loops)\b/.test(q))return "Python loops repeat instructions. A for loop iterates through a sequence; a while loop repeats while a condition is true.\n\nfor i in range(3):\n    print(i)\n\nThis prints 0, 1, 2.";if(/\b(python)\b/.test(q))return "Python is a general-purpose language. Learn variables, types, conditions, loops, functions, lists, dictionaries, and files.";if(/\b(java)\b/.test(q))return "Java is a class-based language that runs on the JVM. Learn variables, loops, methods, classes, objects, inheritance, and exceptions.";if(/\b(sql|database|primary key|foreign key)\b/.test(q))return "A relational database stores data in tables. A primary key uniquely identifies a row; a foreign key links tables. Example: SELECT name FROM students;";if(/\b(network|dns|tcp|udp|ip address)\b/.test(q))return "Networks connect devices. DNS resolves domain names, IP addresses identify interfaces, TCP provides reliable ordered transport, and UDP does not guarantee delivery.";if(/\b(html|css|javascript|website)\b/.test(q))return "HTML structures a page, CSS styles it, and JavaScript adds interactive behaviour.";if(/\b(exam|study|revision|quiz)\b/.test(q))return "Exam tip: review a concept, explain it without notes, solve practice questions, check your mistakes, and revisit weak areas tomorrow.";if(/\b(function)\b/.test(q))return "A function is reusable code that can accept inputs and return a result. Python example:\ndef add(a, b):\n    return a + b";return "I don't have a prepared answer for that exact question. Try Python, Java, SQL, networking, HTML/CSS/JavaScript, functions, or exam tips."}
+function openChat(){panel.hidden=false;launcher.setAttribute("aria-expanded","true");if(!messages.children.length)addMsg("Hello! I'm your rule-based CS Study Assistant. What are you learning today?","bot");chatInput.focus()}
+function closeChat(){panel.hidden=true;launcher.setAttribute("aria-expanded","false")}
+function sendMsg(t){t=t.trim();if(!t)return;addMsg(t,"user");addMsg(botAnswer(t),"bot");chatInput.value=""}
+launcher.addEventListener("click",()=>panel.hidden?openChat():closeChat());document.getElementById("closeChat").addEventListener("click",closeChat);document.getElementById("clearChat").addEventListener("click",()=>{messages.replaceChildren();openChat()});document.getElementById("chatForm").addEventListener("submit",e=>{e.preventDefault();sendMsg(chatInput.value)});
+</script>
+</body>
+</html>
